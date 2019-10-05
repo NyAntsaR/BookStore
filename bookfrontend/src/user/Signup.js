@@ -18,8 +18,8 @@ const Signup = () => {
     const { name, email, password, success, error } = values;
 
     // Function returning another function
-    const handleChange = name => event =>  {
-        setValues( {...values, error: false, [name]: event.target.value });
+    const handleChange = field => event =>  {
+        setValues( {...values, error: false, [field]: event.target.value });
     };
 
     const clickSubmit = (event) => {

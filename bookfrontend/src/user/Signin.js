@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Redirect } from 'react-router-dom'
 import Layout from '../core/Layout'
-import { signin } from '../auth'
+import { signin, authenticate } from '../auth'
 
 
 const Signin = () => {
@@ -19,8 +19,8 @@ const Signin = () => {
     const { email, password, loading, error, redirectToRefferer } = values;
 
     // Function returning another function
-    const handleChange = name => event =>  {
-        setValues( {...values, error: false, [name]: event.target.value });
+    const handleChange = field => event =>  {
+        setValues( {...values, error: false, [field]: event.target.value });
     };
 
     const clickSubmit = (event) => {
@@ -32,7 +32,9 @@ const Signin = () => {
             if(data.error) {
                 setValues({...values, error: data.error, loading: false })
             } else {
-                setValues({...values, redirectToRefferer: true})
+                authenticate(data, () => {
+                    setValues({...values, redirectToRefferer: true})
+                });
             }
         });
     };
