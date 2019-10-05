@@ -73,7 +73,7 @@ export const signout = (next) => {
 }
 
 
-/*---------- SECURING ROUTES -----------*/
+/*---------- CHECK AUTHENTICATION -----------*/
 export const isAuthenticated = () => {
     if(typeof window == 'undefined') {
         return false;
