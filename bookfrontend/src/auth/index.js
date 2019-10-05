@@ -1,5 +1,7 @@
 import { API } from '../config'
 
+
+/*---------- SIGNUP -----------*/
 export const signup = user  => {
     // Send the data to the backend
     return fetch(`${API}/signup`, {
@@ -20,6 +22,8 @@ export const signup = user  => {
     
 };
 
+
+/*---------- SIGNIN -----------*/
 export const signin = user  => {
     // Send the data to the backend
     return fetch(`${API}/signin`, {
@@ -47,4 +51,23 @@ export const authenticate = (data, next) => {
 
         next();
     }
+}
+
+/*---------- SIGNOUT -----------*/
+export const signout = (next) => {
+    // Remove the token from localStorage
+    if(typeof window !== 'undefined') {
+        localStorage.removeItem('jwt')
+        next();
+        // Make a request to the backend
+        // Redirect the user to the home page
+        return fetch(`${API}/signout`, {
+            method:'GET',
+        })
+        .then(response => {
+            console.log('signout', response)
+        })
+        .catch(err => console.log(err));
+    }
+    // Redirect the user to Home page
 }
