@@ -71,3 +71,18 @@ export const signout = (next) => {
     }
     // Redirect the user to Home page
 }
+
+
+/*---------- SECURING ROUTES -----------*/
+export const isAuthenticated = () => {
+    if(typeof window == 'undefined') {
+        return false;
+    }
+
+    if (localStorage.getItem('jwt')) {
+        // Make sure that the jwt is in JSON format
+        return JSON.parse(localStorage.getItem('jwt'))
+    } else {
+        return false;
+    }
+}
