@@ -22,3 +22,25 @@ export const createCategory = (userId, token, category)  => {
     })
     
 };
+
+
+/*---------- CREATE PRODUCT-----------*/
+export const createProduct = (userId, token, product)  => {
+    // Send the data to the backend
+    return fetch(`${API}/product/create/${userId}`, {
+        method: "POST",
+        headers: {
+            Accept: `application/json`,
+            Authorization: `Bearer ${token}`
+        },
+        // Convert the object to Json string 
+        body: product 
+        })
+    .then( response => {
+        return response.json()
+    })
+    .catch( err => {
+        console.log(err);
+    });
+    
+};

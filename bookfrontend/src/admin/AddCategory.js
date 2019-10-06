@@ -78,16 +78,15 @@ const AddCategory = () => {
 
     return (
         <Layout title="Add a new Category" description={`Hello ${ user.name }, ready to add a new category`}>
-        <div className="row">
-            <div className="col-md-8 offset-md-2">
-                { showSuccess() }
-                { showError() }
-                { newCategoryForm() }
-                { goBack() }
+            <div className="row">
+                <div className="col-md-8 offset-md-2">
+                    { showSuccess() }
+                    { showError() }
+                    { newCategoryForm() }
+                    { goBack() }
+                </div>
             </div>
-        </div>
-       
-    </Layout>
+       </Layout>
     )
 }
 
