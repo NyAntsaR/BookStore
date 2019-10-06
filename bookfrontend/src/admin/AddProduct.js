@@ -2,11 +2,10 @@ import React, { useState, useEffect } from 'react'
 import Layout from '../core/Layout'
 import { Link } from 'react-router-dom'
 import { isAuthenticated } from '../auth'
-import { createProduct } from './apiAdmin'
+import { createProduct, getCategories } from './apiAdmin'
 
 
 const AddProduct = () => {
-
     const [values, setValues] = useState({
         name: '',
         description: '',
@@ -18,6 +17,7 @@ const AddProduct = () => {
         photo: '',
         loading: '',
         error: '',
+        createdProduct: '',
         redirectProduct: '',
         redirectToProfile: '',
         formData: ''
@@ -36,14 +36,30 @@ const AddProduct = () => {
         photo,
         loading,
         error,
+        createdProduct,
         redirectProduct,
         redirectToProfile,
         formData
     } = values;
 
-    // Runs whenever their is a change
+    // load categories and set form data
+    const init = () => {
+        getCategories().then(data => {
+            if (data.error) {
+                setValues({ ...values, error: data.error });
+            } else {
+                setValues({
+                    ...values,
+                    categories: data,
+                    formData: new FormData()
+                });
+            }
+        });
+    };
+
+    // Runs whenever there is a change
     useEffect(() => {
-        setValues({...values, formData: new FormData()})
+        init();
     }, [])
 
     // function that returning another function
@@ -68,7 +84,7 @@ const AddProduct = () => {
                     price:'', 
                     quantity:'', 
                     loading: false,
-                    createProduct: data.name
+                    createdProduct: data.name
                 });
             }
         })
@@ -106,8 +122,12 @@ const AddProduct = () => {
                     onChange={handleChange( 'category' )} 
                     className="form-control" 
                 >
-                    <option value="5d960a93843fa72de813bb23">Node</option>
-                    <option value="5d960a93843fa72de813bb23">PHP</option>
+                    <option>Please select a category</option>
+                    { categories && categories.map((c, i) => (
+                        <option key={i} value={c._id}>
+                            {c.name}
+                        </option>
+                    ))}
                 </select>
             </div>
 
@@ -117,6 +137,7 @@ const AddProduct = () => {
                     onChange={handleChange( 'shipping' )} 
                     className="form-control" 
                 >
+                    <option>Please select</option>
                     <option value="0">No</option>
                     <option value="1">Yes</option>
                 </select>
@@ -133,11 +154,32 @@ const AddProduct = () => {
 
         </form>
     );
+    
+    const showError = () => (
+        <div className="alert alert-danger" style={{display: error ? '' : 'none'}}>
+            {error}
+        </div>
+    )
+
+    const showSuccess = () => (
+        <div className="alert alert-info" style={{display: createdProduct ? '' : 'none'}}>
+             <h2>{`${createdProduct}`} is created!</h2>
+        </div>
+    )
+
+    const showLoading = () => (
+        loading && (<div className="alert alert-success">
+            <h2>Loading...</h2>
+        </div>)
+    );
 
     return (
         <Layout title="Add a new Product" description={`Hello ${ user.name }, ready to add a new product`}>
             <div className="row">
                 <div className="col-md-8 offset-md-2">
+                    {showError() }
+                    {showSuccess() }
+                    {showLoading() }
                     { newPostForm() }
                 </div>
             </div>
