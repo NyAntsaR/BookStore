@@ -23,7 +23,6 @@ export const createCategory = (userId, token, category)  => {
     
 };
 
-
 /*---------- CREATE PRODUCT-----------*/
 export const createProduct = (userId, token, product)  => {
     // Send the data to the backend
