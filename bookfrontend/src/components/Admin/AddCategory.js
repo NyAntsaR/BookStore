@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import Layout from '../core/Layout'
+import Layout from '../Core/Layout'
 import { Link } from 'react-router-dom'
-import { isAuthenticated } from '../auth'
+import { isAuthenticated } from '../Auth'
 import { createCategory } from './apiAdmin'
 
 

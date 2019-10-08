@@ -9,15 +9,15 @@ const Home = () => {
     const [productsByArrival, setProductsByArrival] = useState([]);
     const [error, setError] = useState(false);
 
-    const loadProductBySell = () => {
-        getProducts('sold').then(data => {
-            if(data.error) {
-                setError(data.error)
+    const loadProductsBySell = () => {
+        getProducts("sold").then(data => {
+            if (data.error) {
+                setError(data.error);
             } else {
-                setProductsBySell(data)
+                setProductsBySell(data);
             }
         });
-    }
+    };
 
     const loadProductByArrival= () => {
         getProducts('createdAt').then(data => {
@@ -31,7 +31,7 @@ const Home = () => {
 
     useEffect(() => {
         loadProductByArrival()
-        loadProductBySell()
+        loadProductsBySell()
     }, [])
 
     return (

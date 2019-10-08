@@ -4,22 +4,22 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
 
 /*------ AUTHENTICATION -------*/
-import Signup from './user/Signup';
-import Signin from './user/Signin';
-import Home from './core/Home';
-import Shop from './core/Shop';
+import Signup from './components/User/Signup';
+import Signin from './components/User/Signin';
+import Home from './components/Core/Home';
+import Shop from './components/Core/Shop';
 
 /*------ AUTHORIZATION -------*/
-import PrivateRoute from './auth/PrivateRoute';
-import Dashboard from './user/UserDashboard';
-import AdminRoute from './auth/AdminRoute';
-import AdminDashboard from './user/AdminDashboard';
+import PrivateRoute from './components/Auth/PrivateRoute';
+import Dashboard from './components/User/UserDashboard';
+import AdminRoute from './components/Auth/AdminRoute';
+import AdminDashboard from './components/User/AdminDashboard';
 
 /*------ CATEGORY -------*/
-import AddCategory from './admin/AddCategory';
+import AddCategory from './components/Admin/AddCategory';
 
 /*------ PRODUCT -------*/
-import AddProduct from './admin/AddProduct';
+import AddProduct from './components/Admin/AddProduct';
 
 const Routes = () => {
     return (

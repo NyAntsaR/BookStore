@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import Layout from '../core/Layout'
-import { Link } from 'react-router-dom'
-import { isAuthenticated } from '../auth'
+import Layout from '../Core/Layout'
+import { isAuthenticated } from '../Auth'
 import { createProduct, getCategories } from './apiAdmin'
 
 

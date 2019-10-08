@@ -1,4 +1,4 @@
-import { API } from '../config'
+import { API } from '../../config'
 
 /*---------- GET PRODUCT-----------*/
 export const getProducts = (sortBy) => {
