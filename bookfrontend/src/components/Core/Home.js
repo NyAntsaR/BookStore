@@ -58,7 +58,9 @@ const Home = () => {
                 <h2 style={{fontFamily: 'Big Shoulders Display', fontSize: '20px', fontWeight: 'bold', textDecoration: "underline"}} className="mb-4">Best Sellers</h2>
                 <div className="row">
                     {productsBySell.map((product, i) => (
-                        <Card key={i} product={product} />
+                        <div className="col-4 mb-3" style={{width: '200px'}}>
+                            <Card key={i} product={product} />
+                        </div>
                     ))}
                 </div>
             </div>
