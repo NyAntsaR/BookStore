@@ -8,6 +8,7 @@ import Signup from './components/User/Signup';
 import Signin from './components/User/Signin';
 import Home from './components/Core/Home';
 import Shop from './components/Core/Shop';
+import Product from './components/Core/Product';
 
 /*------ AUTHORIZATION -------*/
 import PrivateRoute from './components/Auth/PrivateRoute';
@@ -33,6 +34,7 @@ const Routes = () => {
                 <AdminRoute path="/admin/dashboard" exact component={ AdminDashboard } />
                 <AdminRoute path="/create/category" exact component={ AddCategory } />
                 <AdminRoute path="/create/product" exact component={ AddProduct } />
+                <Route path="/product/:productId" exact component={ Product } />
             </Switch>
         </BrowserRouter>
     );
