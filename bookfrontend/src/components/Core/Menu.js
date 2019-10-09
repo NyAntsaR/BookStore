@@ -4,20 +4,20 @@ import { signout, isAuthenticated } from '../Auth'
 
 const isActive = (history, path) => {
     if(history.location.pathname === path ) {
-        return {color: '#ff9900'}
+        return {color: '#4A4648', fontSize: '15px', fontWeight: 'bold'}
     } else {
-        return {color: '#ffffff'}
+        return {color: '#ffffff', fontSize: '15px'}
     }
 };
 
 const Menu = ( { history }) => (
-    <ul className="nav nav-tabs bg-primary">
+    <ul className="nav nav-tabs" style={{backgroundColor: '#D4A5B8'}}>
         <li className="nav-item">
             <Link className="nav-link" style={ isActive(history, '/') } to="/">Home</Link>
         </li>
 
-        <li className="nav-item">
-            <Link className="nav-link" style={ isActive(history, '/shop') } to="/shop">Shop</Link>
+        <li className="nav-item" style={{margin: "auto"}}>
+            <Link className="nav-link" style={ isActive(history, '/shop')} to="/shop">Shop</Link>
         </li>
 
         {isAuthenticated() && isAuthenticated().user.role === 0 && (

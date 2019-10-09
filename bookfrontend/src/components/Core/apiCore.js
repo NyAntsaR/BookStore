@@ -1,4 +1,6 @@
 import { API } from '../../config'
+// Use to send query parameter for search
+import queryString from "query-string"
 
 /*---------- GET PRODUCT-----------*/
 export const getProducts = (sortBy) => {
@@ -51,3 +53,19 @@ export const getFilteredProducts = (skip, limit, filters = {})  => {
     })
     
 };
+
+/*---------- LIST BASED ON SEARCH -----------*/
+export const list = params => {
+    // Send the query to the backend
+    const query = queryString.stringify(params)
+    console.log('query')
+    return fetch(`${API}/products/search?${query}`, {
+        method: "GET"
+    })
+    .then(response => {
+        return response.json()
+    })
+    .catch(err => {
+        console.log(err);
+    });
+}

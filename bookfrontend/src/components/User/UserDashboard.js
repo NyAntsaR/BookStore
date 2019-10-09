@@ -66,7 +66,6 @@ const Dashboard = () => {
                     { purchaseHistory () }
                 </div>
             </div>
-           
         </Layout>
     )
 }
