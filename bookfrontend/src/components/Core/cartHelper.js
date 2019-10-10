@@ -1,3 +1,5 @@
+/*----------ADD ITEM TO THE LOCAL STORAGE -------- */
+
 // Add product to the localStorage
 // remove duplicates
 export const addItem = (item, next) => {
@@ -26,4 +28,25 @@ export const addItem = (item, next) => {
         localStorage.setItem('cart', JSON.stringify(cart));
         next();
     }
+}
+
+
+/*---------TOTAL PRICE----------*/
+export const itemTotal = () => {
+    if(typeof window !== 'undefined') {
+        if(localStorage.getItem('cart')) {
+            return JSON.parse(localStorage.getItem('cart')).length
+        }
+    }   
+    return 0;
+}
+
+/*---------GET CART TO SHOW ON THE CART PAGE----------*/
+export const getCart = () => {
+    if(typeof window !== 'undefined') {
+        if(localStorage.getItem('cart')) {
+            return JSON.parse(localStorage.getItem('cart'));
+        }
+    }   
+    return [];
 }

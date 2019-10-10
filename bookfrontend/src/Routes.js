@@ -9,6 +9,7 @@ import Signin from './components/User/Signin';
 import Home from './components/Core/Home';
 import Shop from './components/Core/Shop';
 import Product from './components/Core/Product';
+import Cart from './components/Core/Cart';
 
 /*------ AUTHORIZATION -------*/
 import PrivateRoute from './components/Auth/PrivateRoute';
@@ -30,11 +31,15 @@ const Routes = () => {
                 <Route path="/signup" exact component={ Signup } />
                 <Route path="/" exact component={ Home } />
                 <Route path="/shop" exact component={ Shop } />
+
                 <PrivateRoute path="/user/dashboard" exact component={ Dashboard } />
                 <AdminRoute path="/admin/dashboard" exact component={ AdminDashboard } />
                 <AdminRoute path="/create/category" exact component={ AddCategory } />
                 <AdminRoute path="/create/product" exact component={ AddProduct } />
+
                 <Route path="/product/:productId" exact component={ Product } />
+
+                <Route path="/cart" exact component={ Cart } />
             </Switch>
         </BrowserRouter>
     );
