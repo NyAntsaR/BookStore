@@ -1,11 +1,14 @@
-import React from 'react'
-import { Link } from 'react-router-dom';
+import React, {useState} from 'react'
+import { Link , Redirect} from 'react-router-dom';
 import ShowImage from './ShowImage';
 import 'font-awesome/css/font-awesome.min.css';
 // to show the date
 import moment from 'moment'
+import {addItem} from './cartHelper'
 
 const Card = ({ product, showViewProductButton = true }) => {
+
+    const [redirect, setRedirect] = useState(false)
 
     const showViewButton = (showViewProductButton) => {
         return (
@@ -23,9 +26,20 @@ const Card = ({ product, showViewProductButton = true }) => {
             <span style={{borderRadius: '5px', border:'2px solid #D4D2D5', backgroundColor: 'red'}}>Out of stock</span>
     }
 
+    const addToCart = () => {
+        addItem(product, () => {
+            setRedirect(true)
+        }) 
+    }
+
+    const shouldRedirect = redirect => {
+        if (redirect) {
+            return <Redirect to="/cart" />
+        }
+    }
     const showAddToCartButton = () => {
         return (
-            <button style={{border: "none"}}>< i className="fa fa-cart-plus" aria-hidden="true" style={{color:'#D4A5B8', fontSize: '35px'}}></i>
+            <button onClick={addToCart} style={{border: "none"}}>< i className="fa fa-cart-plus" aria-hidden="true" style={{color:'#D4A5B8', fontSize: '35px'}}></i>
             </button>
         )
     }
@@ -34,6 +48,7 @@ const Card = ({ product, showViewProductButton = true }) => {
         <div className="card">
             <div className="card-header" style={{backgroundColor:'#D4A5B8', color: 'white'}}>{ product.name }</div>
             <div className="card-body">
+                {shouldRedirect(redirect)}
                 <ShowImage item={product} url="product" />
                 <p className="lead mt-2" style={{backgroundColor:'#F2D4F3'}}>{product.description.substring(0, 100)}</p>
                 <p className="black-10"style={{backgroundColor:"#ECE2ED"}}>${product.price}</p>
