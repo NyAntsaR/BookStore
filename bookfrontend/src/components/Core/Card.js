@@ -6,7 +6,7 @@ import 'font-awesome/css/font-awesome.min.css';
 import moment from 'moment'
 import {addItem} from './cartHelper'
 
-const Card = ({ product, showViewProductButton = true }) => {
+const Card = ({ product, showViewProductButton = true, showAddToCartButton = true }) => {
 
     const [redirect, setRedirect] = useState(false)
 
@@ -19,6 +19,8 @@ const Card = ({ product, showViewProductButton = true }) => {
             )
         )
     }
+
+   
 
     const showStock = (quantity) => {
         return quantity > 0 ? 
@@ -37,10 +39,12 @@ const Card = ({ product, showViewProductButton = true }) => {
             return <Redirect to="/cart" />
         }
     }
-    const showAddToCartButton = () => {
+    const showAddToCart = (showAddToCartButton) => {
         return (
-            <button onClick={addToCart} style={{border: "none"}}>< i className="fa fa-cart-plus" aria-hidden="true" style={{color:'#D4A5B8', fontSize: '35px'}}></i>
-            </button>
+            showAddToCartButton && (
+                <button onClick={addToCart} style={{border: "none"}}>< i className="fa fa-cart-plus" aria-hidden="true" style={{color:'#D4A5B8', fontSize: '35px'}}></i>
+                </button>
+            )
         )
     }
 
@@ -62,7 +66,7 @@ const Card = ({ product, showViewProductButton = true }) => {
                     {showViewButton(showViewProductButton)}
                 </Link>
 
-                {showAddToCartButton() }
+                {showAddToCart(showAddToCartButton) }
 
             </div>
         </div>
