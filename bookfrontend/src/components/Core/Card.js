@@ -4,9 +4,9 @@ import ShowImage from './ShowImage';
 import 'font-awesome/css/font-awesome.min.css';
 // to show the date
 import moment from 'moment'
-import {addItem, updateItem} from './cartHelper'
+import {addItem, updateItem, removeItem} from './cartHelper'
 
-const Card = ({ product, showViewProductButton = true, showAddToCartButton = true, cartUpdate = false }) => {
+const Card = ({ product, showViewProductButton = true, showAddToCartButton = true, cartUpdate = false, showRemoveProductButton = false }) => {
 
     const [redirect, setRedirect] = useState(false)
     const [count, setCount] = useState(product.count);
@@ -78,6 +78,19 @@ const Card = ({ product, showViewProductButton = true, showAddToCartButton = tru
         );
     };
 
+    const showRemoveButton = showRemoveProductButton => {
+        return (
+            showRemoveProductButton && (
+                <button
+                    onClick={() => removeItem(product._id)}
+                    className="btn btn-outline-danger mt-2 mb-2"
+                >
+                    Remove Product
+                </button>
+            )
+        );
+    };
+
     return (
         <div className="card">
             <div className="card-header" style={{backgroundColor:'#D4A5B8', color: 'white'}}>{ product.name }</div>
@@ -99,6 +112,8 @@ const Card = ({ product, showViewProductButton = true, showAddToCartButton = tru
                 {showAddToCart(showAddToCartButton) }
 
                 {showCartUpdateOptions(cartUpdate)}
+
+                {showRemoveButton(showRemoveProductButton)}
 
             </div>
         </div>
