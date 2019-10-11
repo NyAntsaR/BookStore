@@ -50,6 +50,7 @@ export const getCart = () => {
     }   
     return [];
 }
+<<<<<<< HEAD
 
 
 /*---------- UPDATE ITEM ------------*/
@@ -88,3 +89,5 @@ export const removeItem = productId => {
     }
     return cart;
 };
+=======
+>>>>>>> parent of ce118a1... Update cart product quantity

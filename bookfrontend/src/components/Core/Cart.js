@@ -19,10 +19,14 @@ const Cart = () => {
                 {items.map((product, i) => (
                     <Card
                         key={i}
+<<<<<<< HEAD
                         product={product} 
                         showAddToCartButton={false}
                         cartUpdate={true}
                         showRemoveProductButton={true}
+=======
+                        product={product} showAddToCartButton={false}
+>>>>>>> parent of ce118a1... Update cart product quantity
                     />
                 ))}
             </div>
