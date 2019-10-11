@@ -4,17 +4,12 @@ import ShowImage from './ShowImage';
 import 'font-awesome/css/font-awesome.min.css';
 // to show the date
 import moment from 'moment'
-<<<<<<< HEAD
 import {addItem, updateItem, removeItem} from './cartHelper'
 
 const Card = ({ product, showViewProductButton = true, showAddToCartButton = true, cartUpdate = false, showRemoveProductButton = false }) => {
-=======
-import {addItem} from './cartHelper'
-
-const Card = ({ product, showViewProductButton = true, showAddToCartButton = true }) => {
->>>>>>> parent of ce118a1... Update cart product quantity
 
     const [redirect, setRedirect] = useState(false)
+    const [count, setCount] = useState(false)
 
     const showViewButton = (showViewProductButton) => {
         return (
@@ -54,7 +49,6 @@ const Card = ({ product, showViewProductButton = true, showAddToCartButton = tru
         )
     }
 
-<<<<<<< HEAD
     const handleChange = productId => event => {
         setCount(event.target.value < 1 ? 1 : event.target.value);
         if (event.target.value >= 1) {
@@ -97,8 +91,6 @@ const Card = ({ product, showViewProductButton = true, showAddToCartButton = tru
         );
     };
 
-=======
->>>>>>> parent of ce118a1... Update cart product quantity
     return (
         <div className="card">
             <div className="card-header" style={{backgroundColor:'#D4A5B8', color: 'white'}}>{ product.name }</div>
@@ -119,13 +111,10 @@ const Card = ({ product, showViewProductButton = true, showAddToCartButton = tru
 
                 {showAddToCart(showAddToCartButton) }
 
-<<<<<<< HEAD
                 {showCartUpdateOptions(cartUpdate)}
 
                 {showRemoveButton(showRemoveProductButton)}
 
-=======
->>>>>>> parent of ce118a1... Update cart product quantity
             </div>
         </div>
     )
