@@ -79,7 +79,3 @@ export const removeItem = productId => {
     }
     return cart;
 };
-<<<<<<< HEAD:bookfrontend/src/components/Core/cartHelpers.js
-=======
-
->>>>>>> 9c7b6f2a9bc58d19d330f56e335bdd012e06f089:bookfrontend/src/components/Core/cartHelper.js
