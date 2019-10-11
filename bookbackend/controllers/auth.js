@@ -1,29 +1,24 @@
-const User = require('../models/user');
-// To generate signed token
-const jwt = require('jsonwebtoken');
-// Authorization checked
-const expressJwt = require('express-jwt');
-const { errorHandler } = require('../helpers/dbErrorHandler');
+const User = require("../models/user");
+const jwt = require("jsonwebtoken"); // to generate signed token
+const expressJwt = require("express-jwt"); // for authorization check
+const { errorHandler } = require("../helpers/dbErrorHandler");
 
-/*------AUTHENTICATION-------*/
 exports.signup = (req, res) => {
     // console.log("req.body", req.body);
     const user = new User(req.body);
     user.save((err, user) => {
-        if(err) {
+        if (err) {
             return res.status(400).json({
                 error: errorHandler(err)
             });
         }
-        // Hide salt and hashed_password
-        user.salt = undefined
-        user.hashed_password = undefined
+        user.salt = undefined;
+        user.hashed_password = undefined;
         res.json({
             user
         });
     });
 };
-
 
 exports.signin = (req, res) => {
     // find the user based on email
@@ -38,7 +33,7 @@ exports.signin = (req, res) => {
         // create authenticate method in user model
         if (!user.authenticate(password)) {
             return res.status(401).json({
-                error: "Email and password don't match"
+                error: "Email and password dont match"
             });
         }
         // generate a signed token with user id and secret
@@ -51,14 +46,11 @@ exports.signin = (req, res) => {
     });
 };
 
-
 exports.signout = (req, res) => {
-    res.clearCookie('t');
+    res.clearCookie("t");
     res.json({ message: "Signout success" });
 };
 
-
-/*------AUTHORIZATION-------*/
 exports.requireSignin = expressJwt({
     secret: process.env.JWT_SECRET,
     userProperty: "auth"
@@ -66,20 +58,19 @@ exports.requireSignin = expressJwt({
 
 exports.isAuth = (req, res, next) => {
     let user = req.profile && req.auth && req.profile._id == req.auth._id;
-    if(!user) {
+    if (!user) {
         return res.status(403).json({
             error: "Access denied"
         });
     }
-    next()
+    next();
 };
 
 exports.isAdmin = (req, res, next) => {
-    // 0 is for regular user and 1 for admin
-    if(req.profile.role === 0) {
-        return res.status(403).json ({
-            error: 'Admin resource! Access denied'
+    if (req.profile.role === 0) {
+        return res.status(403).json({
+            error: "Admin resourse! Access denied"
         });
     }
     next();
-}
+};

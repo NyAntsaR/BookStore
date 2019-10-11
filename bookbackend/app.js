@@ -1,41 +1,36 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const morgan = require('morgan');
-const bodyParser = require('body-parser');
-const cookieParser = require('cookie-parser');
-const expressValidatore = require('express-validator');
-const cors = require('cors');
+const morgan = require("morgan");
+const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
+const cors = require("cors");
+const expressValidator = require("express-validator");
 require("dotenv").config();
+// import routes
+const authRoutes = require("./routes/auth");
+const userRoutes = require("./routes/user");
+const categoryRoutes = require("./routes/category");
+const productRoutes = require("./routes/product");
 
-/*------- IMPORT ROUTES -------*/
-const authRoutes = require('./routes/auth');
-const userRoutes = require('./routes/user');
-const categoryRoutes = require('./routes/category');
-const productRoutes = require('./routes/product');
-
-
-/*------- APP -------*/
+// app
 const app = express();
 
-/*------- DATABASE -------*/
+// db
 mongoose
-.connect(process.env.DATABASE, {
+    .connect(process.env.DATABASE, {
         useNewUrlParser: true,
-        useCreateIndex: true,
-        useUnifiedTopology: true 
+        useCreateIndex: true
     })
     .then(() => console.log("DB Connected"));
 
-/*------- MIDDLEWARES -------*/
-app.use(morgan('dev'))
+// middlewares
+app.use(morgan("dev"));
 app.use(bodyParser.json());
 app.use(cookieParser());
-app.use(expressValidatore());
-// Able to handle the request from different origin
+app.use(expressValidator());
 app.use(cors());
 
-
-/*------- ROUTES MIDDLEWARE -------*/
+// routes middleware
 app.use("/api", authRoutes);
 app.use("/api", userRoutes);
 app.use("/api", categoryRoutes);

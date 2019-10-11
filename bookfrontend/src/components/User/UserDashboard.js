@@ -11,16 +11,16 @@ const Dashboard = () => {
     const userLinks = () => {
         return (
             <div className="card">
-                <h4 className="card-header" style={{backgroundColor: '#BCB0BA'}}>User Links</h4>
+                <h4 className="card-header">User Links</h4>
                 <ul className="list-group">
                     <li className="list-group-item">
-                        <Link style={{color: '#6C4968'}} className="nav-link" to="/cart">    
-                            <i class="fa fa-shopping-cart"></i> My Cart
+                        <Link className="nav-link" to="/cart">
+                            My Cart
                         </Link>
                     </li>
                     <li className="list-group-item">
-                        <Link style={{color: '#6C4968'}} className="nav-link" to="/profile/update">
-                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Update Profile
+                        <Link className="nav-link" to="/profile/update">
+                            Update Profile
                         </Link>
                     </li>
                 </ul>
@@ -31,12 +31,12 @@ const Dashboard = () => {
     const userInfo = () => {
         return (
             <div className="card mb-5">
-                <h3 className="card-header" style={{backgroundColor: '#BCB0BA'}}>User Information</h3>
+                <h3 className="card-header">User Information</h3>
                 <ul className="list-group">
                     <li className="list-group-item">{name}</li>
                     <li className="list-group-item">{email}</li>
                     <li className="list-group-item">
-                        {role === 1 ? "Admin" : "Registered as a Customer"}
+                        {role === 1 ? "Admin" : "Registered User"}
                     </li>
                 </ul>
             </div>
@@ -46,9 +46,9 @@ const Dashboard = () => {
     const purchaseHistory = () => {
         return (
             <div className="card mb-5">
-                <h3 className="card-header" style={{backgroundColor: '#BCB0BA'}}>Purchase history</h3>
+                <h3 className="card-header">Purchase history</h3>
                 <ul className="list-group">
-                    <li className="list-group-item">History</li>
+                    <li className="list-group-item">history</li>
                 </ul>
             </div>
         );
@@ -57,9 +57,8 @@ const Dashboard = () => {
     return (
         <Layout
             title="Dashboard"
-            description={`Hello ${name}!`}
+            description={`G'day ${name}!`}
             className="container-fluid"
-        
         >
             <div className="row">
                 <div className="col-3">{userLinks()}</div>

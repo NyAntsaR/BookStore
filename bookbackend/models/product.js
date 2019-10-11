@@ -1,8 +1,8 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const { ObjectId } = mongoose.Schema;
 
-
-const productSchema = new mongoose.Schema({
+const productSchema = new mongoose.Schema(
+    {
         name: {
             type: String,
             trim: true,
@@ -12,16 +12,17 @@ const productSchema = new mongoose.Schema({
         description: {
             type: String,
             required: true,
-            maxlength: 200
+            maxlength: 2000
         },
         price: {
             type: Number,
             trim: true,
-            required: true
+            required: true,
+            maxlength: 32
         },
         category: {
             type: ObjectId,
-            ref: 'Category',
+            ref: "Category",
             required: true
         },
         quantity: {
@@ -39,8 +40,8 @@ const productSchema = new mongoose.Schema({
             required: false,
             type: Boolean
         }
-    }, { timestamps : true }
+    },
+    { timestamps: true }
 );
-
 
 module.exports = mongoose.model("Product", productSchema);

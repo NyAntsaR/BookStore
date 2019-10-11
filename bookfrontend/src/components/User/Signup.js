@@ -68,7 +68,7 @@ const Signup = () => {
                     value={password}
                 />
             </div>
-            <button  style={{backgroundColor: '#BCB0BA', color: 'white'}} onClick={clickSubmit} className="btn">
+            <button onClick={clickSubmit} className="btn btn-primary">
                 Submit
             </button>
         </form>

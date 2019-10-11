@@ -28,8 +28,11 @@ const Menu = ({ history }) => (
             </li>
 
             <li className="nav-item">
-                <Link className="nav-link" style={ isActive(history, '/cart')} to="/cart">
-                    < i className="fa fa-cart-plus" aria-hidden="true" style={{color:'white', fontSize: '30px'}}></i>     <sup><small className="cart-badge">{itemTotal()}</small></sup>
+                <Link className="nav-link" style={isActive(history, "/cart")} to="/cart">
+                    Cart{" "}
+                    <sup>
+                        <small className="cart-badge" style={{backgroundColor: 'white', color:"#56164D", fontWeight:"bold"}}>{itemTotal()}</small>
+                    </sup>
                 </Link>
             </li>
 

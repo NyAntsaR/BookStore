@@ -27,10 +27,10 @@ const Routes = () => {
     return (
         <BrowserRouter>
             <Switch>
-                <Route path="/signin" exact component={ Signin } />
-                <Route path="/signup" exact component={ Signup } />
                 <Route path="/" exact component={ Home } />
                 <Route path="/shop" exact component={ Shop } />
+                <Route path="/signin" exact component={ Signin } />
+                <Route path="/signup" exact component={ Signup } />
 
                 <PrivateRoute path="/user/dashboard" exact component={ Dashboard } />
                 <AdminRoute path="/admin/dashboard" exact component={ AdminDashboard } />
@@ -39,7 +39,7 @@ const Routes = () => {
 
                 <Route path="/product/:productId" exact component={ Product } />
 
-                <Route path="/cart" exact component={ Cart } />
+                <Route path="/cart" exact component={Cart} />
             </Switch>
         </BrowserRouter>
     );

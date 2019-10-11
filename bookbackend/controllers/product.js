@@ -1,42 +1,55 @@
-const Product = require('../models/product');
-// Handle photo upload
-const formidable = require('formidable');
+const formidable = require("formidable");
 const _ = require("lodash");
-const fs = require('fs');
+const fs = require("fs");
+const Product = require("../models/product");
+const { errorHandler } = require("../helpers/dbErrorHandler");
 
-/*-------MIDDLEWARE FOR PRODUCT ID --------*/
 exports.productById = (req, res, next, id) => {
-    Product.findById(id).populate("category").exec((err, product) => {
-        if (err || !product) {
-            return res.status(400).json({
-                error: "Product not found"
-            });
-        }
-        req.product = product;
-        next();
-    });
+    Product.findById(id)
+        .populate("category")
+        .exec((err, product) => {
+            if (err || !product) {
+                return res.status(400).json({
+                    error: "Product not found"
+                });
+            }
+            req.product = product;
+            next();
+        });
 };
 
-/*-------READ PRODUCT --------*/
 exports.read = (req, res) => {
-    req.product.photo = undefined
+    req.product.photo = undefined;
     return res.json(req.product);
 };
 
-/*------- ADMIN CREATE PRODUCT --------*/
-exports.create= (req, res) => {
+exports.create = (req, res) => {
     let form = new formidable.IncomingForm();
     form.keepExtensions = true;
     form.parse(req, (err, fields, files) => {
-        if(err) {
+        if (err) {
             return res.status(400).json({
                 error: "Image could not be uploaded"
-            })
+            });
         }
+        // check for all fields
+        const {
+            name,
+            description,
+            price,
+            category,
+            quantity,
+            shipping
+        } = fields;
 
-        // Check for all fields
-        const { name, description, price, category, quantity, shipping } = fields
-        if(!name || !description || !price || !category || !quantity || !shipping) {
+        if (
+            !name ||
+            !description ||
+            !price ||
+            !category ||
+            !quantity ||
+            !shipping
+        ) {
             return res.status(400).json({
                 error: "All fields are required"
             });
@@ -44,108 +57,110 @@ exports.create= (req, res) => {
 
         let product = new Product(fields);
 
-        //1kb = 1000
-        //1mb = 1000000
+        // 1kb = 1000
+        // 1mb = 1000000
 
-        // Photo same name as specified in schema
         if (files.photo) {
-            console.log('FILES PHOTO: ', files.photo)
-            //Add some validation for the size of the photo
-            if(files.photo.size > 1000000) {
+            // console.log("FILES PHOTO: ", files.photo);
+            if (files.photo.size > 1000000) {
                 return res.status(400).json({
-                    error: "Image should be less than 1mb"
+                    error: "Image should be less than 1mb in size"
                 });
             }
-            // Access the file System and
-            // Populate the content type
-            product.photo.data = fs.readFileSync(files.photo.path)
-            product.photo.contentType = files.photo.type
+            product.photo.data = fs.readFileSync(files.photo.path);
+            product.photo.contentType = files.photo.type;
         }
 
         product.save((err, result) => {
-            if(err) {
+            if (err) {
                 return res.status(400).json({
                     error: errorHandler(err)
                 });
             }
             res.json(result);
-         });
-    })
+        });
+    });
 };
 
-/*------- ADMIN UPDATE PRODUCT --------*/
-exports.update= (req, res) => {
+exports.remove = (req, res) => {
+    let product = req.product;
+    product.remove((err, deletedProduct) => {
+        if (err) {
+            return res.status(400).json({
+                error: errorHandler(err)
+            });
+        }
+        res.json({
+            message: "Product deleted successfully"
+        });
+    });
+};
+
+exports.update = (req, res) => {
     let form = new formidable.IncomingForm();
     form.keepExtensions = true;
     form.parse(req, (err, fields, files) => {
-        if(err) {
+        if (err) {
             return res.status(400).json({
                 error: "Image could not be uploaded"
-            })
+            });
         }
+        // check for all fields
+        const {
+            name,
+            description,
+            price,
+            category,
+            quantity,
+            shipping
+        } = fields;
 
-        // Check for all fields
-        const { name, description, price, category, quantity, shipping } = fields
-        if(!name || !description || !price || !category || !quantity || !shipping) {
+        if (
+            !name ||
+            !description ||
+            !price ||
+            !category ||
+            !quantity ||
+            !shipping
+        ) {
             return res.status(400).json({
                 error: "All fields are required"
             });
         }
 
-        let product = req.product
-        // Provided by lodash
-        product = _.extend(product, fields)
+        let product = req.product;
+        product = _.extend(product, fields);
 
-        //1kb = 1000
-        //1mb = 1000000
+        // 1kb = 1000
+        // 1mb = 1000000
 
-        // Photo same name as specified in schema
         if (files.photo) {
-            console.log('FILES PHOTO: ', files.photo)
-            //Add some validation for the size of the photo
-            if(files.photo.size > 1000000) {
+            // console.log("FILES PHOTO: ", files.photo);
+            if (files.photo.size > 1000000) {
                 return res.status(400).json({
-                    error: "Image should be less than 1mb"
+                    error: "Image should be less than 1mb in size"
                 });
             }
-            // Access the file System and
-            // Populate the content type
-            product.photo.data = fs.readFileSync(files.photo.path)
-            product.photo.contentType = files.photo.type
+            product.photo.data = fs.readFileSync(files.photo.path);
+            product.photo.contentType = files.photo.type;
         }
 
         product.save((err, result) => {
-            if(err) {
+            if (err) {
                 return res.status(400).json({
                     error: errorHandler(err)
                 });
             }
             res.json(result);
-         });
-    })
+        });
+    });
 };
 
-
-/*-------ADMIN DELETE PRODUCT --------*/
-exports.remove = (req, res) => {
-    let product = req.product;
-    product.remove((err) => {
-        if (err) {
-            return res.status(400).json({
-                error: errorHandler(err)
-            });
-        } 
-        res.json({
-            "message": "Product successfully deleted!"
-        })
-    })
-}
-
-/*-------SORTING PRODUCT BY SELL OR NEW --------*/
 /**
-    * sort by sell = /products ? sortBy=sold & order=desc & limit=6
-    *  sort by arrival = /products ? sortBy=created & order=desc & limit=6
-    * if no params are sent, then all products are returned
+ * sell / arrival
+ * by sell = /products?sortBy=sold&order=desc&limit=4
+ * by arrival = /products?sortBy=createdAt&order=desc&limit=4
+ * if no params are sent, then all products are returned
  */
 
 exports.list = (req, res) => {
@@ -168,18 +183,17 @@ exports.list = (req, res) => {
         });
 };
 
-
-/*-------- SHOW RELATED PRODUCT OF THE CURRENT PRODUCT DISPLAYED ------*/
 /**
  * it will find the products based on the req product category
- * other products
+ * other products that has the same category, will be returned
  */
+
 exports.listRelated = (req, res) => {
     let limit = req.query.limit ? parseInt(req.query.limit) : 6;
-    // find the product based on id not included the current product
-    Product.find({_id: {$ne: req.product}, category: req.product.category})
+
+    Product.find({ _id: { $ne: req.product }, category: req.product.category })
         .limit(limit)
-        .populate('category', '_id name')
+        .populate("category", "_id name")
         .exec((err, products) => {
             if (err) {
                 return res.status(400).json({
@@ -190,23 +204,17 @@ exports.listRelated = (req, res) => {
         });
 };
 
-
-/*-------- LIST CATEGORIES RELATED USED FOR A PRODUCT ------*/
 exports.listCategories = (req, res) => {
-    // distinct() get all the categories that are used in the category model
-    Product.distinct('category', {}, (err, categories) => {
+    Product.distinct("category", {}, (err, categories) => {
         if (err) {
             return res.status(400).json({
                 error: "Categories not found"
             });
         }
         res.json(categories);
-    })
+    });
 };
 
-
-
-/*-------- SEARCH BASED ON PRICE OR CATEGOGY ------*/
 /**
  * list products by search
  * we will implement product search in react frontend
@@ -214,7 +222,7 @@ exports.listCategories = (req, res) => {
  * as the user clicks on those checkbox and radio buttons
  * we will make api request and show the products to users based on what he wants
  */
-     
+
 exports.listBySearch = (req, res) => {
     let order = req.body.order ? req.body.order : "desc";
     let sortBy = req.body.sortBy ? req.body.sortBy : "_id";
@@ -267,7 +275,6 @@ exports.photo = (req, res, next) => {
     next();
 };
 
-/*--------- LIST SEARCH----------*/
 exports.listSearch = (req, res) => {
     // create query object to hold search value and category value
     const query = {};
@@ -287,23 +294,6 @@ exports.listSearch = (req, res) => {
                 });
             }
             res.json(products);
-            // not selecting the photo for performance reason
         }).select("-photo");
     }
 };
-
-
-
-/*-------- MIDDLEWARE TO RETURN THE PHOTO ------*/
-exports.photo = (req, res, next) => {
-    if(req.product.photo.data) {
-        // view any type of photo
-        res.set('Content-Type', req.product.photo.contentType);
-        return res.send(req.product.photo.data);
-    }
-    next();
-}
-
-
-
-
