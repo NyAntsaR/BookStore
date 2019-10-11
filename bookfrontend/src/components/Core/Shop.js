@@ -1,30 +1,23 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import Layout from "./Layout";
-import { getCategories, getFilteredProducts } from './apiCore'
-import Checkbox from './Checkbox'
-import RadioBox from './RadioBox'
-import { prices } from './fixedPrices'
 import Card from "./Card";
-
+import { getCategories, getFilteredProducts } from "./apiCore";
+import Checkbox from "./Checkbox";
+import RadioBox from "./RadioBox";
+import { prices } from "./fixedPrices";
 
 const Shop = () => {
-
     const [myFilters, setMyFilters] = useState({
-        filters: { category: [], price: []}
-    })
-
-    const [categories, setCategories] = useState([])
-    const [error, setError] = useState(false)
-    const [limit, setLimit] = useState(6)
-    const [skip, setSkip] = useState(0)
-
-    // Load more product
-    const [size, setSize] = useState(0)
-
+        filters: { category: [], price: [] }
+    });
+    const [categories, setCategories] = useState([]);
+    const [error, setError] = useState(false);
+    const [limit, setLimit] = useState(6);
+    const [skip, setSkip] = useState(0);
+    const [size, setSize] = useState(0);
     const [filteredResults, setFilteredResults] = useState([]);
 
-     // load categories and set form data
-     const init = () => {
+    const init = () => {
         getCategories().then(data => {
             if (data.error) {
                 setError(data.error);
@@ -34,18 +27,18 @@ const Shop = () => {
         });
     };
 
-    const loadFilteredResults = (newFilters) => {
-        console.log(newFilters)
+    const loadFilteredResults = newFilters => {
+        // console.log(newFilters);
         getFilteredProducts(skip, limit, newFilters).then(data => {
-            if(data.error){
-                setError(data.error)
+            if (data.error) {
+                setError(data.error);
             } else {
-                setFilteredResults(data.data)
-                setSize(data.size)
-                setSkip(0)
+                setFilteredResults(data.data);
+                setSize(data.size);
+                setSkip(0);
             }
-        })
-    }
+        });
+    };
 
     const loadMore = () => {
         let toSkip = skip + limit;
@@ -74,68 +67,73 @@ const Shop = () => {
 
     useEffect(() => {
         init();
-        loadFilteredResults(skip, limit, myFilters.filters)
-    }, [])
+        loadFilteredResults(skip, limit, myFilters.filters);
+    }, []);
 
-    const handleFilters = ( filters, filterBy ) => {
-        console.log( filters, filterBy)
-        const newFilters = {...myFilters}
+    const handleFilters = (filters, filterBy) => {
+        // console.log("SHOP", filters, filterBy);
+        const newFilters = { ...myFilters };
         newFilters.filters[filterBy] = filters;
 
-        if(filterBy === "price") {
-            let priceValues = handlePrice(filters)
+        if (filterBy === "price") {
+            let priceValues = handlePrice(filters);
             newFilters.filters[filterBy] = priceValues;
         }
-
-        loadFilteredResults(myFilters.filters)
+        loadFilteredResults(myFilters.filters);
         setMyFilters(newFilters);
-    }
-
+    };
 
     const handlePrice = value => {
-        const data = prices
-        let array = []
+        const data = prices;
+        let array = [];
 
         for (let key in data) {
-            if( data[key]._id === parseInt(value)) {
+            if (data[key]._id === parseInt(value)) {
                 array = data[key].array;
             }
         }
         return array;
-    }
+    };
 
     return (
         <Layout
             title="Shop Page"
             description="Search and find books of your choice"
-            className="container"
+            className="container-fluid"
         >
             <div className="row">
-                <div className="col-4">
-                    <h4>Filter by categories</h4>
-                    <ul>
-                        <Checkbox 
-                            categories={categories} 
-                            handleFilters={ filters => handleFilters(filters, 'category')}
-                    />
-                    </ul>
-                    
-                    <h4>Filter by price range</h4>
-                    <div>
-                        <RadioBox
-                            prices={prices} 
-                            handleFilters={ filters => handleFilters(filters, 'price')}
-                    />
+                <div className="col-3">
+                    <div style={{border: '1px solid black', margin: '10px', padding: '10px', borderRadius: '5px'}}>
+                        <h4 className="description" style={{fontWeight: 'bold'}}>Filter by categories</h4>
+                        <ul>
+                            <Checkbox
+                                categories={categories}
+                                handleFilters={filters =>
+                                    handleFilters(filters, "category")
+                                }
+                            />
+                        </ul>
+                    </div>
+                    <div style={{border: '1px solid black', margin: '10px', padding: '10px', borderRadius: '5px'}}>
+                        <h4 className="description" style={{fontWeight: 'bold'}}>Filter by price range</h4>
+                        <div>
+                            <RadioBox
+                                prices={prices}
+                                handleFilters={filters =>
+                                    handleFilters(filters, "price")
+                                }
+                            />
+                        </div>
                     </div>
                 </div>
 
-                <div className="col-8">
-                    <h2 className="mb-4">Products</h2>
+                <div className=" description col-8">
+                    <h2 className="mb-4" ><i class="fa fa-arrow-right"></i> Products</h2>
                     <div className="row">
                         {filteredResults.map((product, i) => (
-                            <div className="col-4 mb3" key={i}>
-                                <Card  product={product} />
-                            </div>    
+                            <div key={i} className="col-4 mb-3">
+                                <Card product={product} />
+                            </div>
                         ))}
                     </div>
                     <hr />
@@ -143,7 +141,7 @@ const Shop = () => {
                 </div>
             </div>
         </Layout>
-    ) 
-}
+    );
+};
 
-export default Shop
+export default Shop;

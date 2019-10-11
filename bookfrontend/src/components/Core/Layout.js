@@ -1,22 +1,21 @@
-// Layout dynamically render content depending on the active page
-import React from 'react'
-import Menu from "./Menu"
+import React from "react";
+import Menu from "./Menu";
 import "../../styles.css";
 
-const Layout = ({ title="Title", description="Description", className, children }) => (
-    <div style={{fontFamily: 'Big Shoulders Display'}}>
+const Layout = ({
+    title = "Title",
+    description = "Description",
+    className,
+    children
+}) => (
+    <div>
         <Menu />
-        <div className="headerPage">
-            <h2 className="description container" style={{ textAlign: 'center', marginTop: '15px'}}>{ title }</h2>
-            <p className="description" style={{ textAlign: 'center', marginTop: '10px'}}>
-                { description }
-            </p>
+        <div className="description" style={{height: '100px', margin : '10px', padding: '15px', backgroundColor:'#BCB0BA', textAlign: 'center'}}>
+            <h2>{title}</h2>
+            <p className="description">{description}</p>
         </div>
-
-        <div className={ className }>
-            { children }
-        </div>
+        <div className={className}>{children}</div>
     </div>
-)
+);
 
 export default Layout;

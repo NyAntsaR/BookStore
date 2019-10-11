@@ -1,109 +1,109 @@
-import React, { useState } from 'react'
-import { Redirect } from 'react-router-dom'
-import Layout from '../Core/Layout'
-import { signin, authenticate, isAuthenticated } from '../Auth'
-
+import React, { useState, useEffect } from "react";
+import { Redirect } from "react-router-dom";
+import Layout from "../Core/Layout";
+import { signin, authenticate, isAuthenticated } from "../Auth";
 
 const Signin = () => {
     const [values, setValues] = useState({
-        email: '',
-        password: '',
-        // If error, display a messge
-        error: '',
+        email: "ryan@gmail.com",
+        password: "rrrrrr9",
+        error: "",
         loading: false,
-        // redirect the user to the home page if success
-        redirectToRefferer: false,
+        redirectToReferrer: false
     });
 
-    // Destruction
-    const { email, password, loading, error, redirectToRefferer } = values;
+    const { email, password, loading, error, redirectToReferrer } = values;
     const { user } = isAuthenticated();
 
-    // Function returning another function
-    const handleChange = field => event =>  {
-        setValues( {...values, error: false, [field]: event.target.value });
+    const handleChange = name => event => {
+        setValues({ ...values, error: false, [name]: event.target.value });
     };
 
-    const clickSubmit = (event) => {
-        // Prevent the page to reload
+    const clickSubmit = event => {
         event.preventDefault();
-        setValues({ ...values, error: false, /*show the user that it's loading */ loading: true })
-        signin( { email, password } )
-        .then(data => {
-            if(data.error) {
-                setValues({...values, error: data.error, loading: false })
+        setValues({ ...values, error: false, loading: true });
+        signin({ email, password }).then(data => {
+            if (data.error) {
+                setValues({ ...values, error: data.error, loading: false });
             } else {
                 authenticate(data, () => {
-                    setValues({...values, redirectToRefferer: true})
+                    setValues({
+                        ...values,
+                        redirectToReferrer: true
+                    });
                 });
             }
         });
     };
 
-
-    const signinForm = () => (
+    const signUpForm = () => (
         <form>
             <div className="form-group">
                 <label className="text-muted">Email</label>
-                <input 
-                    onChange={ handleChange('email') } 
-                    type="email" className="form-control"
-                    value={ email }  />
+                <input
+                    onChange={handleChange("email")}
+                    type="email"
+                    className="form-control"
+                    value={email}
+                />
             </div>
 
             <div className="form-group">
                 <label className="text-muted">Password</label>
-                <input 
-                    onChange={ handleChange('password') }  
-                    type="password" className="form-control"
-                    value={ password }  />
+                <input
+                    onChange={handleChange("password")}
+                    type="password"
+                    className="form-control"
+                    value={password}
+                />
             </div>
-
-            <button onClick={clickSubmit} className="btn btn-primary">
+            <button onClick={clickSubmit}  style={{backgroundColor: '#BCB0BA', color: 'white'}} className="btn">
                 Submit
             </button>
         </form>
     );
 
     const showError = () => (
-        <div className="alert alert-danger" style={{ display: error ? '' : 'none'}}>
-            { error }
+        <div
+            className="alert alert-danger"
+            style={{ display: error ? "" : "none" }}
+        >
+            {error}
         </div>
     );
 
-    const showLoading = () => 
+    const showLoading = () =>
         loading && (
             <div className="alert alert-info">
                 <h2>Loading...</h2>
             </div>
         );
-    
+
     const redirectUser = () => {
-        if(redirectToRefferer) {
-            if(user && user.role === 1) {
-                return <Redirect to="/admin/dashboard" />
+        if (redirectToReferrer) {
+            if (user && user.role === 1) {
+                return <Redirect to="/admin/dashboard" />;
             } else {
-                return <Redirect to="/user/dashboard" />
+                return <Redirect to="/user/dashboard" />;
             }
         }
-        if(isAuthenticated()) {
-            return <Redirect to='/' />
+        if (isAuthenticated()) {
+            return <Redirect to="/" />;
         }
-    }
+    };
 
     return (
-        <Layout 
-            className="container col-md-8 offset-md-2" 
-            title="Signup" 
-            description="Signup to Node React BookStore App"
+        <Layout
+            title="Signin"
+            description="Signin to Node React E-commerce App"
+            className="container col-md-8 offset-md-2"
         >
-            { showLoading() }
-            { showError() }
-            { signinForm() }
-            { redirectUser() }
+            {showLoading()}
+            {showError()}
+            {signUpForm()}
+            {redirectUser()}
         </Layout>
-    )
+    );
 };
 
 export default Signin;
-

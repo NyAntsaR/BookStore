@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react'
-import Layout from './Layout'
-import { getProducts } from './apiCore'
+import React, { useState, useEffect } from "react";
+import Layout from "./Layout";
+import { getProducts } from "./apiCore";
 import Card from "./Card";
-import Search from './Search'
+import Search from "./Search";
 
 const Home = () => {
-
     const [productsBySell, setProductsBySell] = useState([]);
     const [productsByArrival, setProductsByArrival] = useState([]);
     const [error, setError] = useState(false);
@@ -20,53 +19,53 @@ const Home = () => {
         });
     };
 
-    const loadProductByArrival= () => {
-        getProducts('createdAt').then(data => {
-            if(data.error) {
-                setError(data.error)
+    const loadProductsByArrival = () => {
+        getProducts("createdAt").then(data => {
+            if (data.error) {
+                setError(data.error);
             } else {
-                setProductsByArrival(data)
+                setProductsByArrival(data);
             }
         });
-    }
+    };
 
     useEffect(() => {
-        loadProductByArrival()
-        loadProductsBySell()
-    }, [])
+        loadProductsByArrival();
+        loadProductsBySell();
+    }, []);
 
     return (
         <Layout
-            title="Welcome to your Book Store Online!"
-            description="Browse and find your book"
-            className="container-fluid"
+            title="Welcome to your Book Store"
+            description="Browse and find you Book !"
+            className="container description"
         >
-            <Search className="search" />
-            
-            <div className="container">
-                <h2 style={{fontFamily: 'Big Shoulders Display', fontSize: '20px', fontWeight: 'bold', textDecoration: "underline" }} className="mb-4">New Arrivals</h2>
-                <div className="row">
-                    {productsByArrival.map((product, i) => (
-                         <div className="col-4 mb-3" style={{width: '200px'}}>
-                            <Card key={i} product={product} />
-                        </div>
-                    ))}
-                </div>
-
-                <hr/>
-
-                <h2 style={{fontFamily: 'Big Shoulders Display', fontSize: '20px', fontWeight: 'bold', textDecoration: "underline"}} className="mb-4">Best Sellers</h2>
-                <div className="row">
-                    {productsBySell.map((product, i) => (
-                        <div className="col-4 mb-3" style={{width: '200px'}}>
-                            <Card key={i} product={product} />
-                        </div>
-                    ))}
-                </div>
+            <Search />
+            <h2 className="mb-4">
+                <i class="fa fa-arrow-right"></i> New Arrivals:
+            </h2>
+            <div className="row">
+                {productsByArrival.map((product, i) => (
+                    <div key={i} className="col-4 mb-3">
+                        <Card product={product} />
+                    </div>
+                ))}
             </div>
-            
+
+            <hr />
+
+            <h2 className="mb-4" style={{fontWeight: 'bold'}}>
+                <i class="fa fa-arrow-right"></i> Best Sellers: 
+            </h2>
+            <div className="row">
+                {productsBySell.map((product, i) => (
+                    <div key={i} className="col-4 mb-3">
+                        <Card product={product} />
+                    </div>
+                ))}
+            </div>
         </Layout>
-    )
-}
+    );
+};
 
 export default Home;

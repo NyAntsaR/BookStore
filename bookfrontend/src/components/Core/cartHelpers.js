@@ -1,13 +1,9 @@
-/*----------ADD ITEM TO THE LOCAL STORAGE -------- */
-// Add product to the localStorage
-// remove duplicates
 export const addItem = (item, next) => {
     let cart = [];
     if (typeof window !== "undefined") {
         if (localStorage.getItem("cart")) {
             cart = JSON.parse(localStorage.getItem("cart"));
         }
-         // push the new item 
         cart.push({
             ...item,
             count: 1
@@ -31,29 +27,24 @@ export const addItem = (item, next) => {
     }
 };
 
-
-
-/*---------TOTAL PRICE----------*/
 export const itemTotal = () => {
-    if(typeof window !== 'undefined') {
-        if(localStorage.getItem('cart')) {
-            return JSON.parse(localStorage.getItem('cart')).length
+    if (typeof window !== "undefined") {
+        if (localStorage.getItem("cart")) {
+            return JSON.parse(localStorage.getItem("cart")).length;
         }
-    }   
+    }
     return 0;
-}
+};
 
-/*---------GET CART TO SHOW ON THE CART PAGE----------*/
 export const getCart = () => {
-    if(typeof window !== 'undefined') {
-        if(localStorage.getItem('cart')) {
-            return JSON.parse(localStorage.getItem('cart'));
+    if (typeof window !== "undefined") {
+        if (localStorage.getItem("cart")) {
+            return JSON.parse(localStorage.getItem("cart"));
         }
-    }   
+    }
     return [];
-}
+};
 
-/*---------- UPDATE ITEM ------------*/
 export const updateItem = (productId, count) => {
     let cart = [];
     if (typeof window !== "undefined") {
@@ -71,7 +62,6 @@ export const updateItem = (productId, count) => {
     }
 };
 
-/*----------REMOVE ITEM ------------*/
 export const removeItem = productId => {
     let cart = [];
     if (typeof window !== "undefined") {

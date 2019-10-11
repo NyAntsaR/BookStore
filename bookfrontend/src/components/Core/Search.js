@@ -1,21 +1,18 @@
-import React, { useState, useEffect } from 'react'
-import Layout from './Layout'
-import { getCategories, list } from './apiCore'
+import React, { useState, useEffect } from "react";
+import { getCategories, list } from "./apiCore";
 import Card from "./Card";
 
 const Search = () => {
     const [data, setData] = useState({
         categories: [],
-        category: '',
-        search: '',
+        category: "",
+        search: "",
         results: [],
         searched: false
     });
 
-    // Destructure
-    const {categories, category, search, results, searched} = data;
+    const { categories, category, search, results, searched } = data;
 
-    // Get all the categories
     const loadCategories = () => {
         getCategories().then(data => {
             if (data.error) {
@@ -27,10 +24,9 @@ const Search = () => {
     };
 
     useEffect(() => {
-        loadCategories()
+        loadCategories();
     }, []);
 
-    // Make Api request and get the data
     const searchData = () => {
         // console.log(search, category);
         if (search) {
@@ -44,6 +40,11 @@ const Search = () => {
                 }
             );
         }
+    };
+
+    const searchSubmit = e => {
+        e.preventDefault();
+        searchData();
     };
 
     const handleChange = name => event => {
@@ -74,13 +75,12 @@ const Search = () => {
         );
     };
 
-    // Search Form
     const searchForm = () => (
         <form onSubmit={searchSubmit}>
             <span className="input-group-text">
                 <div className="input-group input-group-lg">
                     <div className="input-group-prepend">
-                        <select style={{fontFamily: 'Big Shoulders Display', fontSize: '20px' }}
+                        <select
                             className="btn mr-2"
                             onChange={handleChange("category")}
                         >
@@ -98,33 +98,28 @@ const Search = () => {
                         className="form-control"
                         onChange={handleChange("search")}
                         placeholder="Search by name"
-                        style={{fontFamily: 'Big Shoulders Display', fontSize: '15px' }}
                     />
                 </div>
                 <div
                     className="btn input-group-append"
-                    style={{ border: "none",  fontFamily: 'Big Shoulders Display', fontSize: '25px'}}
+                    style={{ border: "none" }}
                 >
-                    <button className="input-group-text" style={{backgroundColor:'#D4A5B8', color:'white'}}>Search</button>
+                    <button style={{backgroundColor: '#BCB0BA'}} className="input-group-text">
+                        <i class="fa fa-search-plus" aria-hidden="true"></i>Search
+                    </button>
                 </div>
             </span>
         </form>
     );
 
-    // On submit
-    const searchSubmit = (e) => {
-        e.preventDefault()
-        searchData()
-    }
-
     return (
-        <div>
-            <div className="search container mb-3">{searchForm()}</div>
-            <div className="search container-fluid mb-3">
+        <div className="row">
+            <div className="container mb-3">{searchForm()}</div>
+            <div className="container-fluid mb-3">
                 {searchedProducts(results)}
             </div>
         </div>
     );
-}
+};
 
-export default Search
+export default Search;
