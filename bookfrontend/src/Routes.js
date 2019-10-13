@@ -22,6 +22,7 @@ import AddCategory from './components/Admin/AddCategory';
 
 /*------ PRODUCT -------*/
 import AddProduct from './components/Admin/AddProduct';
+import ManageProducts from  './components/Admin/ManageProducts';
 
 const Routes = () => {
     return (
@@ -36,6 +37,7 @@ const Routes = () => {
                 <AdminRoute path="/admin/dashboard" exact component={ AdminDashboard } />
                 <AdminRoute path="/create/category" exact component={ AddCategory } />
                 <AdminRoute path="/create/product" exact component={ AddProduct } />
+                <PrivateRoute path="/admin/products" exact component={ ManageProducts } />
 
                 <Route path="/product/:productId" exact component={ Product } />
 
