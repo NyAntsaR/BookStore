@@ -4,6 +4,7 @@ import { isAuthenticated } from "../Auth";
 import { Link } from "react-router-dom";
 import 'braintree-web'
 import DropIn from 'braintree-web-drop-in-react'
+import {emptyCart} from './cartHelpers'
 
 const Checkout = ({ products }) => {
     const [data, setData] = useState({
@@ -79,6 +80,9 @@ const Checkout = ({ products }) => {
                         // console.log(response
                         setData({ ...data, success: response.success });
                         // empty cart
+                        emptyCart(() =>{
+                            console.log('payment success and emoty cart')
+                        })
                         
                     })
                     .catch(error => console.log(error));
