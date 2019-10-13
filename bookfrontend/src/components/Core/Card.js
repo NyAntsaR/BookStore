@@ -102,14 +102,17 @@ const Card = ({
     };
 
     return (
-        <div className="card">
+        <div className="card" style={{width: 350, height: 598}}>
             <div className="card-header name" style={{backgroundColor: '#BCB0BA'}}>{product.name}</div>
             <div className="card-body">
                 {shouldRedirect(redirect)}
-                <ShowImage item={product} url="product" />
-                <p className="lead mt-2" style={{margin:'0px'}}>
-                    {product.description.substring(0, 100)}
-                </p>
+                <div>
+                    <ShowImage item={product} url="product" />
+                    <p className=" mt-2" style={{fontSize: '12px',  margin:'0px'}}>
+                        {product.description.substring(0, 500)}
+                    </p>
+                </div>
+               
                 <p className="black-10" style={{margin:'0px'}}> <spam style={{fontWeight:'bold', color: '#AE90AA'}}>Price: </spam> ${product.price}</p>
                 <p className="black-9" style={{margin:'0px'}}>
                     <spam style={{fontWeight:'bold', color: '#AE90AA'}}>Category: </spam> {product.category && product.category.name}

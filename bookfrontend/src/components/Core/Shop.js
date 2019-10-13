@@ -102,7 +102,7 @@ const Shop = () => {
             className="container-fluid"
         >
             <div className="row">
-                <div className="col-3">
+                <div className="col-2">
                     <div style={{border: '1px solid black', margin: '10px', padding: '10px', borderRadius: '5px'}}>
                         <h4 className="description" style={{fontWeight: 'bold'}}>Filter by categories</h4>
                         <ul>
@@ -127,7 +127,7 @@ const Shop = () => {
                     </div>
                 </div>
 
-                <div className=" description col-8">
+                <div className=" description col-10">
                     <h2 className="mb-4" ><i class="fa fa-arrow-right"></i> Products</h2>
                     <div className="row">
                         {filteredResults.map((product, i) => (

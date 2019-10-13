@@ -14,7 +14,7 @@ const isActive = (history, path) => {
 
 const Menu = ({ history }) => (
     <div className="description">
-        <ul className="nav nav-tabs" style={{backgroundColor: '#DFC9DC', padding: '10px'}}>
+        <ul className="nav nav-tabs" style={{backgroundColor: '#DF2931', padding: '10px'}}>
             <li className="nav-item">
                 <Link className="nav-link" style={isActive(history, "/")} to="/">
                 <i class="fa fa-home" aria-hidden="true"></i> Home
@@ -29,9 +29,9 @@ const Menu = ({ history }) => (
 
             <li className="nav-item">
                 <Link className="nav-link" style={isActive(history, "/cart")} to="/cart">
-                    Cart{" "}
+                < i className="fa fa-cart-plus" aria-hidden="true" style={{color:'white', fontSize: '30px'}}></i>{" "}
                     <sup>
-                        <small className="cart-badge" style={{backgroundColor: 'white', color:"#56164D", fontWeight:"bold"}}>{itemTotal()}</small>
+                        <small className="cart-badge" style={{backgroundColor: 'white', color:"#56164D", fontWeight:"bold", borderRadius: '50%', fontSize: '20px', padding: '2px'}}>{itemTotal()}</small>
                     </sup>
                 </Link>
             </li>

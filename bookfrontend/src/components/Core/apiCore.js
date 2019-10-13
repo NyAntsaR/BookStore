@@ -1,6 +1,7 @@
 import { API } from "../../config";
 import queryString from "query-string";
 
+/*-----------PRODUCT--------*/
 export const getProducts = sortBy => {
     return fetch(`${API}/products?sortBy=${sortBy}&order=desc&limit=6`, {
         method: "GET"
@@ -11,6 +12,7 @@ export const getProducts = sortBy => {
         .catch(err => console.log(err));
 };
 
+/*-----------CATEGORY--------*/
 export const getCategories = () => {
     return fetch(`${API}/categories`, {
         method: "GET"
@@ -21,6 +23,7 @@ export const getCategories = () => {
         .catch(err => console.log(err));
 };
 
+/*-----------FILTERED PRODUCT--------*/
 export const getFilteredProducts = (skip, limit, filters = {}) => {
     const data = {
         limit,
@@ -43,6 +46,7 @@ export const getFilteredProducts = (skip, limit, filters = {}) => {
         });
 };
 
+/*-----------PRODUCT LIST--------*/
 export const list = params => {
     const query = queryString.stringify(params);
     console.log("query", query);
@@ -55,6 +59,7 @@ export const list = params => {
         .catch(err => console.log(err));
 };
 
+
 export const read = productId => {
     return fetch(`${API}/product/${productId}`, {
         method: "GET"
@@ -65,9 +70,27 @@ export const read = productId => {
         .catch(err => console.log(err));
 };
 
+/*-----------PRODUCT RELATED LIST--------*/
 export const listRelated = productId => {
     return fetch(`${API}/products/related/${productId}`, {
         method: "GET"
+    })
+        .then(response => {
+            return response.json();
+        })
+        .catch(err => console.log(err));
+};
+
+
+/*-----------PAYMENT TOKEN--------*/
+export const getBraintreeClientToken = (userId, token) => {
+    return fetch(`${API}/braintree/getToken/${userId}`, {
+        method: "GET",
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+        },
     })
         .then(response => {
             return response.json();
