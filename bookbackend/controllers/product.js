@@ -4,6 +4,7 @@ const fs = require("fs");
 const Product = require("../models/product");
 const { errorHandler } = require("../helpers/dbErrorHandler");
 
+/*-------GET PRODUCT--------*/
 exports.productById = (req, res, next, id) => {
     Product.findById(id)
         .populate("category")
@@ -18,11 +19,13 @@ exports.productById = (req, res, next, id) => {
         });
 };
 
+/*-------READ PRODUCT--------*/
 exports.read = (req, res) => {
     req.product.photo = undefined;
     return res.json(req.product);
 };
 
+/*-------CREATE PRODUCT--------*/
 exports.create = (req, res) => {
     let form = new formidable.IncomingForm();
     form.keepExtensions = true;
@@ -82,6 +85,7 @@ exports.create = (req, res) => {
     });
 };
 
+/*-------REMOVE PRODUCT--------*/
 exports.remove = (req, res) => {
     let product = req.product;
     product.remove((err, deletedProduct) => {
@@ -96,6 +100,7 @@ exports.remove = (req, res) => {
     });
 };
 
+/*-------UPDATE PRODUCT--------*/
 exports.update = (req, res) => {
     let form = new formidable.IncomingForm();
     form.keepExtensions = true;
@@ -103,28 +108,6 @@ exports.update = (req, res) => {
         if (err) {
             return res.status(400).json({
                 error: "Image could not be uploaded"
-            });
-        }
-        // check for all fields
-        const {
-            name,
-            description,
-            price,
-            category,
-            quantity,
-            shipping
-        } = fields;
-
-        if (
-            !name ||
-            !description ||
-            !price ||
-            !category ||
-            !quantity ||
-            !shipping
-        ) {
-            return res.status(400).json({
-                error: "All fields are required"
             });
         }
 
@@ -163,6 +146,7 @@ exports.update = (req, res) => {
  * if no params are sent, then all products are returned
  */
 
+/*-------SHOW ALL PRODUCTS--------*/
 exports.list = (req, res) => {
     let order = req.query.order ? req.query.order : "asc";
     let sortBy = req.query.sortBy ? req.query.sortBy : "_id";
@@ -188,6 +172,7 @@ exports.list = (req, res) => {
  * other products that has the same category, will be returned
  */
 
+ /*-------SHOW RELATED PRODUCT--------*/
 exports.listRelated = (req, res) => {
     let limit = req.query.limit ? parseInt(req.query.limit) : 6;
 
@@ -204,6 +189,7 @@ exports.listRelated = (req, res) => {
         });
 };
 
+/*-------SHOW LIST CATEGORY--------*/
 exports.listCategories = (req, res) => {
     Product.distinct("category", {}, (err, categories) => {
         if (err) {
@@ -215,6 +201,15 @@ exports.listCategories = (req, res) => {
     });
 };
 
+/*-------PHOTO--------*/
+exports.photo = (req, res, next) => {
+    if (req.product.photo.data) {
+        res.set("Content-Type", req.product.photo.contentType);
+        return res.send(req.product.photo.data);
+    }
+    next();
+};
+
 /**
  * list products by search
  * we will implement product search in react frontend
@@ -222,7 +217,7 @@ exports.listCategories = (req, res) => {
  * as the user clicks on those checkbox and radio buttons
  * we will make api request and show the products to users based on what he wants
  */
-
+/*-------SEARCH--------*/
 exports.listBySearch = (req, res) => {
     let order = req.body.order ? req.body.order : "desc";
     let sortBy = req.body.sortBy ? req.body.sortBy : "_id";
@@ -267,13 +262,6 @@ exports.listBySearch = (req, res) => {
         });
 };
 
-exports.photo = (req, res, next) => {
-    if (req.product.photo.data) {
-        res.set("Content-Type", req.product.photo.contentType);
-        return res.send(req.product.photo.data);
-    }
-    next();
-};
 
 exports.listSearch = (req, res) => {
     // create query object to hold search value and category value

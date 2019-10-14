@@ -6,7 +6,7 @@ import 'font-awesome/css/font-awesome.min.css';
 
 const isActive = (history, path) => {
     if (history.location.pathname === path) {
-        return { color: "#56164D", fontWeight:"bold"};
+        return { color: "#B5ADB3", fontWeight:"bold"};
     } else {
         return { color: "#ffffff" };
     }
@@ -14,7 +14,7 @@ const isActive = (history, path) => {
 
 const Menu = ({ history }) => (
     <div className="description">
-        <ul className="nav nav-tabs" style={{backgroundColor: '#DF2931', padding: '10px'}}>
+        <ul className="nav nav-tabs" style={{backgroundColor: '#76135C', padding: '10px'}}>
             <li className="nav-item">
                 <Link className="nav-link" style={isActive(history, "/")} to="/">
                 <i class="fa fa-home" aria-hidden="true"></i> Home
